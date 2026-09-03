@@ -31,7 +31,7 @@ const views = {
 function showView(name) {
   Object.values(views).forEach(v => v.classList.add("hidden"));
   views[name].classList.remove("hidden");
-  window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+  window.scrollTo({ top: 0, behavior: "instant" });
 }
 
 document.querySelectorAll("[data-back]").forEach(btn => {
