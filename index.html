@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日常英会話アプリ</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-inner">
+    <h1>🗣️ 日常英会話アプリ</h1>
+    <div class="header-controls">
+      <label class="level-filter">
+        レベル:
+        <select id="levelFilter">
+          <option value="all">すべて</option>
+          <option value="beginner">初級</option>
+          <option value="intermediate">中級</option>
+        </select>
+      </label>
+      <div class="progress-badge" id="progressBadge">0 / 0 覚えた</div>
+    </div>
+  </div>
+</header>
+
+<main id="app">
+
+  <!-- カテゴリ一覧画面 -->
+  <section id="view-home" class="view">
+    <p class="lead">カテゴリを選んで練習しましょう。フラッシュカードで覚えて、クイズで確認できます。</p>
+    <div class="category-grid" id="categoryGrid"></div>
+  </section>
+
+  <!-- フラッシュカード画面 -->
+  <section id="view-cards" class="view hidden">
+    <button class="back-btn" data-back="home">← カテゴリ一覧に戻る</button>
+    <div class="view-title-row">
+      <h2 id="cardsCategoryTitle"></h2>
+      <button class="quiz-btn" id="startQuizBtn">📝 このカテゴリでクイズ</button>
+    </div>
+    <div class="card-list" id="cardList"></div>
+  </section>
+
+  <!-- クイズ画面 -->
+  <section id="view-quiz" class="view hidden">
+    <button class="back-btn" data-back="cards">← フラッシュカードに戻る</button>
+    <h2 id="quizCategoryTitle"></h2>
+    <div id="quizArea"></div>
+  </section>
+
+</main>
+
+<footer class="app-footer">
+  <p>進捗はこのブラウザに保存されます。発音ボタンは端末の音声合成を使用します。</p>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
