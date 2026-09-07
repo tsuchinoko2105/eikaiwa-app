@@ -55,17 +55,19 @@ function renderCards(catId) {
     card.innerHTML = `
       <div class="phrase-top">
         <div class="phrase-en">${p.en}</div>
-        <span class="level-tag ${p.level}">${p.level === "beginner" ? "初級" : "中級"}</span>
+        <span class="level-tag ${p.level}">${levelLabel(p.level)}</span>
       </div>
       <div class="phrase-actions">
         <button class="icon-btn btn-speak">🔊 聞く</button>
         <button class="icon-btn btn-speak-slow">🐢 ゆっくり</button>
+        <button class="icon-btn btn-mic">🎤 話す練習</button>
         <button class="icon-btn btn-toggle">👁 意味を見る</button>
         <label class="mastered-toggle">
           <input type="checkbox" class="mastered-checkbox" ${isMastered ? "checked" : ""}>
           覚えた
         </label>
       </div>
+      <div class="mic-result"></div>
       <div class="phrase-details">
         <div class="phrase-ja">${p.ja}</div>
         <div class="phrase-note">💡 ${p.note}</div>
@@ -86,8 +88,58 @@ function renderCards(catId) {
       card.classList.toggle("mastered", e.target.checked);
       updateProgressBadge();
     });
+    card.querySelector(".btn-mic").addEventListener("click", (e) => runSpeakingCheck(p.en, card, e.target));
 
     list.appendChild(card);
+  });
+}
+
+function levelLabel(level) {
+  if (level === "beginner") return "初級";
+  if (level === "intermediate") return "中級";
+  return "上級";
+}
+
+// マイクで発音してもらい、フレーズと聞き取り結果を比較して結果を表示する
+function runSpeakingCheck(targetEn, card, btn) {
+  const resultEl = card.querySelector(".mic-result");
+
+  if (!supportsRecognition()) {
+    resultEl.innerHTML = `<div class="mic-feedback retry">このブラウザは音声認識に対応していません(Google Chrome推奨)。</div>`;
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "🎤 聞いています…";
+  resultEl.innerHTML = "";
+
+  recognizeOnce({
+    onResult: (transcript) => {
+      const score = similarityScore(targetEn, transcript);
+      const verdict = judgeScore(score);
+      const pct = Math.round(score * 100);
+      const messages = {
+        good: "✅ とても良い発音です!",
+        close: "🔶 惜しい!もう少し練習してみましょう。",
+        retry: "🔁 もう一度挑戦してみましょう。",
+      };
+      resultEl.innerHTML = `
+        <div class="mic-feedback ${verdict}">
+          ${messages[verdict]}(一致度 ${pct}%)<br>
+          <span class="mic-heard">聞き取り結果: 「${transcript}」</span>
+        </div>
+      `;
+    },
+    onError: (reason) => {
+      const msg = reason === "not-allowed" || reason === "permission-denied" || reason === "no-response"
+        ? "マイクの使用が許可されていないか、応答がありませんでした。ブラウザのサイト設定とOSのマイク権限を確認してください。" + embeddedHint()
+        : "音声を認識できませんでした。もう一度お試しください。" + embeddedHint();
+      resultEl.innerHTML = `<div class="mic-feedback retry">⚠️ ${msg}</div>`;
+    },
+    onEnd: () => {
+      btn.disabled = false;
+      btn.textContent = "🎤 話す練習";
+    },
   });
 }
 

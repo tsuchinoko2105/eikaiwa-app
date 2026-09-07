@@ -3,6 +3,7 @@ const views = {
   home: document.getElementById("view-home"),
   cards: document.getElementById("view-cards"),
   quiz: document.getElementById("view-quiz"),
+  conversation: document.getElementById("view-conversation"),
 };
 
 function showView(name) {

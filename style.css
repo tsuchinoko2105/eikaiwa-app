@@ -11,6 +11,8 @@
   --radius: 14px;
   --correct: #2f7d4f;
   --wrong: #b03a3a;
+  --warn: #a8781f;
+  --advanced: #7952b3;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,6 +28,8 @@
     --shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
     --correct: #5cbf82;
     --wrong: #e08080;
+    --warn: #e0b23c;
+    --advanced: #b79ee0;
   }
 }
 
@@ -177,6 +181,12 @@ main#app {
 
 .view-title-row h2 { margin: 0; }
 
+.view-title-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .quiz-btn {
   background: var(--accent);
   color: #fff;
@@ -187,6 +197,10 @@ main#app {
   font-weight: 600;
   font-size: 0.9rem;
   font-family: inherit;
+}
+
+.quiz-btn.convo-btn {
+  background: var(--accent-2);
 }
 
 .card-list {
@@ -231,6 +245,7 @@ main#app {
 
 .level-tag.beginner { color: var(--accent-2); }
 .level-tag.intermediate { color: var(--accent); }
+.level-tag.advanced { color: var(--advanced); }
 
 .phrase-actions {
   display: flex;
@@ -373,3 +388,115 @@ main#app {
   font-size: 0.78rem;
   padding: 24px 20px 40px;
 }
+
+/* ---- マイク・発音チェック ---- */
+.mic-result:empty { display: none; }
+
+.mic-feedback {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.mic-feedback.good { border-color: var(--correct); color: var(--correct); }
+.mic-feedback.close { border-color: var(--warn); color: var(--warn); }
+.mic-feedback.retry { border-color: var(--wrong); color: var(--wrong); }
+
+.mic-heard {
+  color: var(--text-dim);
+  font-size: 0.82rem;
+}
+
+/* ---- 会話練習モード ---- */
+.chat-log {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.chat-bubble {
+  max-width: 80%;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.chat-bubble.npc {
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+.chat-bubble.you {
+  align-self: flex-end;
+  background: var(--surface-2);
+  border-bottom-right-radius: 4px;
+}
+
+.chat-bubble.current {
+  border-color: var(--accent-2);
+}
+
+.chat-role {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin-bottom: 4px;
+}
+
+.chat-en {
+  font-size: 1.02rem;
+  font-weight: 600;
+}
+
+.chat-ja {
+  margin-top: 2px;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.chat-hint {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.convo-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.chalk-btn-lg {
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-family: inherit;
+}
+
+.chalk-btn-lg:hover { background: var(--border); }
+.chalk-btn-lg:disabled { opacity: 0.5; cursor: default; }
+
+.mic-btn-lg {
+  border: none;
+  background: var(--wrong);
+  color: #fff;
+  border-radius: 999px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 700;
+  font-family: inherit;
+}
+
+.mic-btn-lg:hover { filter: brightness(1.08); }
+.mic-btn-lg:disabled { opacity: 0.6; cursor: default; }

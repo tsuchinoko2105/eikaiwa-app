@@ -18,6 +18,7 @@
           <option value="all">すべて</option>
           <option value="beginner">初級</option>
           <option value="intermediate">中級</option>
+          <option value="advanced">上級</option>
         </select>
       </label>
       <div class="progress-badge" id="progressBadge">0 / 0 覚えた</div>
@@ -29,7 +30,7 @@
 
   <!-- カテゴリ一覧画面 -->
   <section id="view-home" class="view">
-    <p class="lead">カテゴリを選んで練習しましょう。フラッシュカードで覚えて、クイズで確認できます。</p>
+    <p class="lead">カテゴリを選んで練習しましょう。フラッシュカードで覚えて、クイズで確認、会話練習モードでは実際に声に出して話せます。</p>
     <div class="category-grid" id="categoryGrid"></div>
   </section>
 
@@ -38,7 +39,10 @@
     <button class="back-btn" data-back="home">← カテゴリ一覧に戻る</button>
     <div class="view-title-row">
       <h2 id="cardsCategoryTitle"></h2>
-      <button class="quiz-btn" id="startQuizBtn">📝 このカテゴリでクイズ</button>
+      <div class="view-title-actions">
+        <button class="quiz-btn" id="startQuizBtn">📝 このカテゴリでクイズ</button>
+        <button class="quiz-btn convo-btn" id="startConvoBtn">💬 会話で練習</button>
+      </div>
     </div>
     <div class="card-list" id="cardList"></div>
   </section>
@@ -50,18 +54,28 @@
     <div id="quizArea"></div>
   </section>
 
+  <!-- 会話練習画面 -->
+  <section id="view-conversation" class="view hidden">
+    <button class="back-btn" data-back="cards">← フラッシュカードに戻る</button>
+    <h2 id="conversationCategoryTitle"></h2>
+    <div id="conversationArea"></div>
+  </section>
+
 </main>
 
 <footer class="app-footer">
-  <p>進捗はこのブラウザに保存されます。発音ボタンは端末の音声合成を使用します。</p>
+  <p>進捗はこのブラウザに保存されます。発音ボタンは端末の音声合成を、話す練習・会話練習はマイクの音声認識を使用します(Google Chrome推奨)。</p>
 </footer>
 
 <script src="data.js"></script>
+<script src="dialogues.js"></script>
 <script src="js/state.js"></script>
 <script src="js/views.js"></script>
 <script src="js/speech.js"></script>
+<script src="js/recognition.js"></script>
 <script src="js/home-cards.js"></script>
 <script src="js/quiz.js"></script>
+<script src="js/conversation.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
